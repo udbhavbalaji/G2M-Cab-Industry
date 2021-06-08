@@ -94,9 +94,10 @@ final_df['income_per_month'] = final_df.apply(lambda x:income_list)
 
 # Another possible route that we might want to explore is to split the location names into cities and states so that
 #  we can get more information regarding a company's performance in a particular state.
-final_df['state'] = final_df['city'].apply(lambda x: x.strip()[-2:])
-final_df['city'] = final_df['city'].apply(lambda x: x.strip()[:-2].strip())
+
+final_df['state'] = final_df['city'].apply(lambda x: x.strip()[-2:] if x not in ['SILICON VALLEY','ORANGE COUNTY'] else 'LA')
+final_df['city'] = final_df['city'].apply(lambda x: x.strip()[:-2].strip() if x not in ['SILICON VALLEY','ORANGE COUNTY'] else x.strip())
 
 # We have now created the master data. We will export this into a .csv file, which we will further explore in our EDA notebook
-print(final_df.head())
+print(final_df[final_df.city == 'SILICON VALLEY'].head())
 final_df.to_csv('Datasets/Master_Data.csv')
