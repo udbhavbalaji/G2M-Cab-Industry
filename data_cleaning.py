@@ -4,7 +4,7 @@ import numpy as np
 pd.set_option("display.max_columns", None)
 
 # Reading in Cab_Data.csv data to filter out the columns that we want to analyze
-cab_data = pd.read_csv('Cab_Data.csv')
+cab_data = pd.read_csv('Datasets/Cab_Data.csv')
 cab_data.columns = ['txnID','travel_date','company','city','travel_distance','price','cost']
 
 # Let's create a column for profit for each individual ride
@@ -16,7 +16,7 @@ final_df = cab_data[['company','city','travel_distance','price','cost','profit']
 final_df.index = cab_data['txnID']
 
 # Reading in City.csv data to filter out and add the required data into final_df, so that we can analyze this data
-city = pd.read_csv('City.csv')
+city = pd.read_csv('Datasets/City.csv')
 city.columns = ['city','population','users']
 city = city.set_index('city')
 
@@ -52,7 +52,7 @@ final_df['population'] = final_df.apply(lambda x:pop_list)
 final_df['user_ratio'] = final_df.apply(lambda x:ratio_list)
 
 # Reading in Transaction_ID.csv to filter out and add the required data to final_df, so that we can analyze this data
-transactions = pd.read_csv('Transaction_ID.csv')
+transactions = pd.read_csv('Datasets/Transaction_ID.csv')
 transactions.columns = ['txnID','custID','mode_payment']
 transactions = transactions.set_index('txnID')
 
@@ -62,7 +62,7 @@ transactions = transactions.set_index('txnID')
 final_df = pd.merge(final_df, transactions, how='inner', left_index=True, right_index=True)
 
 # Reading in Customer_ID.csv to filter out and add the required data fields to final_df, so that we can analyze the entire relavant data
-customer = pd.read_csv('Customer_ID.csv')
+customer = pd.read_csv('Datasets/Customer_ID.csv')
 customer.columns = ['custID','gender','age','income_per_month_dollars']
 customer = customer.set_index('custID')
 
@@ -99,4 +99,4 @@ final_df['city'] = final_df['city'].apply(lambda x: x.strip()[:-2].strip())
 
 # We have now created the master data. We will export this into a .csv file, which we will further explore in our EDA notebook
 print(final_df.head())
-final_df.to_csv('Master_Data.csv')
+final_df.to_csv('Datasets/Master_Data.csv')
